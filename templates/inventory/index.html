@@ -1,0 +1,41 @@
+{% extends "../layout.html" %}
+{% block content %}
+<div class="container content-section">
+  {% if messages %}
+     {% for message in messages %}
+       <div class='text-center alert alert-{{message.tags}}'>
+         {{ message }}
+       </div>
+    {% endfor %}
+  {% endif %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Item Cost</th>
+      <th scope="col">Stock Quantity</th>
+      <th scope="col">Quanty sold</th>
+      <th scope="col">Revenue</th>
+      <th scope="col">Stock Date</th>
+      <th scope="col">Last Sales</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for invent in inventory %}
+    <tr style="cursor: pointer;"  onclick="window.location = `{% url 'single-product' invent.id %}`">
+      <td scope="row">{{forloop.counter}}</td>
+      <td>{{invent.product_name}}</td>
+      <td>Ksh. {{invent.cost_per_item}}</td>
+      <td>{{invent.quantity_in_stock}}</td>
+      <td>{{invent.quantity_sold}}</td>
+      <td>Ksh. {{invent.sales}}</td>
+      <td>{{invent.stock_date}}</td>
+      <td>{{invent.last_sales_date}}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+  {{inventories.product_name}}
+</table>
+</div>
+{% endblock %}

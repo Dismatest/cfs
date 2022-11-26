@@ -1,0 +1,35 @@
+{% extends "../layout.html" %}
+{% block content %}
+<div class="container content-section">
+  {% if messages %}
+     {% for message in messages %}
+       <div class='text-center alert alert-{{message.tags}}'>
+         {{ message }}
+       </div>
+    {% endfor %}
+  {% endif %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Point Received</th>
+      <th scope="col">Discount</th>
+      <th scope="col">Total Sales</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for disc in discount %}
+    <tr>
+      <td scope="row">{{forloop.counter}}</td>
+      <td>{{disc.name}}</td>
+      <td>Ksh. {{disc.point_received}}</td>
+      <td>{{disc.discount}}</td>
+      <td>{{disc.total_sale}}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+  {{inventories.product_name}}
+</table>
+</div>
+{% endblock %}
