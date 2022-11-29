@@ -69,17 +69,23 @@ def update_product(request, pk):
     inventory = get_object_or_404(Inventory, pk=pk)
     if request.method == 'POST':
         updateForm = UpdateProductForm(data=request.POST)
+        product_id = Inventory.objects.get(id=inventory.id)
         if updateForm.is_valid():
             inventory.quantity_in_stock = int(updateForm.data['quantity_in_stock']) - int(updateForm.data['quantity_sold'])
             inventory.quantity_sold = updateForm.data['quantity_sold']
             inventory.sales = float(inventory.quantity_sold) * float(inventory.cost_per_item)
             inventory.cost_per_item = updateForm.data['cost_per_item']
+            point_received = inventory.quantity_sold
+            discount = float(point_received) * 0.5
+            total = inventory.sales - discount
+            sale = Sale.objects.create(point_received=point_received,discount=discount, total_sale=total, name=product_id)
+            sale.save()
             if inventory.quantity_in_stock <= 0:
                 updateForm.save(commit=False)
                 messages.warning(request, f'Kindly add more stock before you can sell, Your stock is less')
             else:
                  inventory.save()
-            return redirect(f"/inventory/single-product/{pk}")
+            return redirect("/inventory/dashboard")
     else:
         updateForm = UpdateProductForm(instance=inventory)
     context = {

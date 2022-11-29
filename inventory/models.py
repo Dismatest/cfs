@@ -20,4 +20,5 @@ class  Sale(models.Model):
     name = models.ForeignKey(Inventory, on_delete=models.CASCADE, null=False, blank=False)
     total_sale = models.DecimalField(max_digits=19, decimal_places=2, null=False, blank=False)
 
-    
+    def __str__(self):
+        return self.name.product_name
